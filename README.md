@@ -1,4 +1,4 @@
-# Aeon <img src="aeon.jpg" alt="Aeon" width="16" />
+# Aeon <img src="aeon.jpg" alt="Aeon" width="24" />
 
 Background intelligence that evolves with you.
 
