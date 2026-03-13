@@ -23,7 +23,6 @@ jobs:
   poll:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name != 'schedule'
     outputs:
       matrix: ${{ steps.messages.outputs.matrix }}
 
