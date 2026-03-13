@@ -12,6 +12,9 @@ permissions:
   pull-requests: write
   issues: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 concurrency:
   group: aeon-messages
   cancel-in-progress: false

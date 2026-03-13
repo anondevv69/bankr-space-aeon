@@ -69,8 +69,6 @@ Claude Code reads these automatically from the environment — there's no separa
 
 Two GitHub Actions workflows work together. A scheduler (`messages.yml`) runs every 5 minutes — it checks for incoming messages (Telegram, Discord, Slack) and matches skills from `aeon.yml` by their cron schedule. When a skill matches, it dispatches it to the runner (`aeon.yml`), which tells Claude Code to read and execute that skill's markdown file. After Claude finishes, the workflow commits all changes back to your repo.
 
-The **heartbeat** is the core loop. The scheduler checks every 5 minutes, but heartbeat itself runs hourly as the fallback — whenever no other skill is scheduled for that hour, heartbeat takes over and scans for anything that needs attention: stalled PRs, flagged memory items, missed skill runs, urgent issues. If nothing needs attention, it exits silently. If something does, it notifies you and logs the finding.
-
 ```
 Every 5 min, messages.yml fires
   → Poll job: checks Telegram/Discord/Slack for new messages
@@ -82,6 +80,38 @@ Every 5 min, messages.yml fires
 ```
 
 Monitor-type skills that find nothing log an ack (`HEARTBEAT_OK`, `TOKEN_ALERT_OK`, etc.) and the workflow skips the commit — zero noise when nothing needs attention.
+
+### Heartbeat
+
+Heartbeat is the only skill enabled by default. It's the agent's core loop — a proactive ambient check that runs every 3 hours as the fallback, catching anything that falls through the cracks.
+
+Every time heartbeat fires, it reads recent memory and logs, then runs through a checklist: stalled PRs older than 24 hours, flagged memory items needing follow-up, urgent GitHub issues, and scheduled skills that haven't run when expected. It deduplicates against the last 48 hours of logs before notifying — if it already told you about something, it won't tell you again.
+
+If nothing needs attention, it logs `HEARTBEAT_OK` and exits. No commit, no notification. If something does need attention, it sends a concise notification and logs the finding. The heartbeat is always listed last in `aeon.yml` — the scheduler picks skills in order, so heartbeat only runs when no other skill is scheduled for that slot.
+
+This is what makes Aeon more than a collection of cron jobs. Heartbeat gives it ambient awareness — a background process that watches over everything and surfaces problems you'd otherwise miss until they become urgent.
+
+### Design philosophy
+
+Aeon's architecture is intentionally the opposite of projects like [OpenClaw](https://github.com/openclaw/openclaw). Where OpenClaw runs a long-lived gateway daemon on your own infrastructure — a central process that owns all messaging surfaces, maintains persistent connections, and routes through a multi-stage pipeline (channel adapters → session coordination → lane queues → agent runner → agentic loop) — Aeon has no running process at all.
+
+There is no server. No daemon. No WebSocket connections. No container to keep alive. The entire system is **event-driven and ephemeral**: a cron trigger fires, a bash script checks if there's work, and if there is, it spins up Claude Code for a few minutes in a disposable GitHub Actions runner. When the task is done, the runner is destroyed. State lives in git. Memory lives in markdown files. The scheduler is 300 lines of shell script.
+
+This is a deliberate trade-off:
+
+| | Aeon | OpenClaw |
+|---|---|---|
+| **Runtime** | Ephemeral (GitHub Actions) | Long-lived daemon |
+| **Infra** | None — runs on GitHub's runners | Self-hosted (laptop, VPS, cloud) |
+| **State** | Git commits + markdown files | In-memory + external DB |
+| **Latency** | Minutes (cron polling) | Seconds (persistent connections) |
+| **Cost** | Free (public repo) or ~$2/mo | Your server costs |
+| **Failure mode** | Missed cron tick, retries next cycle | Process crash, needs restart |
+| **Extensibility** | Add a markdown file | Write a plugin |
+
+OpenClaw's gateway model gives you real-time responsiveness, rich plugin composition, and device integration. Aeon trades all of that for **zero ops**. No process to monitor, no server to patch, no port to expose, no Docker container to update. If GitHub Actions is up, Aeon is up. If a skill fails, the next cron tick tries again. The blast radius of any failure is one git commit.
+
+The bet is that for most personal agent use cases — digests, monitoring, research, writing — you don't need sub-second latency. You need reliability, zero maintenance, and the confidence that your agent is running without you thinking about it. That's what the heartbeat loop provides: a process that checks on itself, checks on your world, and only speaks up when something matters.
 
 ## Configuration
 
@@ -360,6 +390,17 @@ git merge upstream/main --no-edit
 ```
 
 This merges template changes without overwriting your personal content, since your articles/memory are in files that don't exist in the template.
+
+## Troubleshooting
+
+### Messages not being picked up
+
+If Aeon isn't responding to your Telegram/Discord/Slack messages, the cron schedule likely hasn't activated yet. GitHub Actions has two requirements for scheduled workflows:
+
+1. **The workflow file must exist on the default branch** — if you're working on a feature branch, the cron in `messages.yml` won't fire until it's merged to `main`.
+2. **The repo must have recent activity** — GitHub disables cron schedules on repos with no commits in the last 60 days. More importantly, on **newly created repos from templates, the schedule doesn't start until you manually trigger the workflow at least once**.
+
+**Fix:** Go to **Actions > Messages > Run workflow** and trigger it manually. After that first run, the cron schedule will activate and polling starts automatically.
 
 ## Project structure
 
