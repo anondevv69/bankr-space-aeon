@@ -56,15 +56,30 @@ export async function POST(request: Request) {
       timeout: 60000,
     }).toString()
 
-    // The token starts with sk-ant-oat and may wrap across multiple lines
-    const match = output.match(/sk-ant-oat[A-Za-z0-9_\-]+/g)
-    if (!match) {
+    // Find the token line and any continuation (token wraps across lines in terminal output)
+    // First, strip all whitespace/newlines after "sk-ant-oat" to reassemble a wrapped token
+    const tokenBlock = output.slice(output.indexOf('sk-ant-oat'))
+    if (!tokenBlock.startsWith('sk-ant-oat')) {
       return NextResponse.json({
         error: 'Could not extract token. Paste your API key manually instead.',
       }, { status: 400 })
     }
-    // Join in case the token wrapped across lines (strip whitespace between fragments)
-    const token = match.join('')
+    // Take everything until we hit a space, newline-then-non-alnum, or empty line
+    // The token chars are: A-Za-z0-9_-
+    const tokenChars: string[] = []
+    for (const line of tokenBlock.split('\n')) {
+      const trimmed = line.trim()
+      if (tokenChars.length === 0) {
+        // First line with the token
+        tokenChars.push(trimmed)
+      } else if (/^[A-Za-z0-9_\-]+$/.test(trimmed) && trimmed.length < 20) {
+        // Continuation line (short, all valid token chars — like "wAA")
+        tokenChars.push(trimmed)
+      } else {
+        break
+      }
+    }
+    const token = tokenChars.join('')
 
     execSync('gh secret set CLAUDE_CODE_OAUTH_TOKEN', {
       input: token,
