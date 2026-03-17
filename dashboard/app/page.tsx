@@ -189,9 +189,36 @@ export default function Dashboard() {
   const [uploadDragOver, setUploadDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  // Auth
+  const [authStatus, setAuthStatus] = useState<{ authenticated: boolean } | null>(null)
+  const [authLoading, setAuthLoading] = useState(false)
+
   const flash = (msg: string) => {
     setToast(msg)
     setTimeout(() => setToast(''), 3000)
+  }
+
+  const checkAuth = async () => {
+    try {
+      const res = await fetch('/api/auth')
+      if (res.ok) setAuthStatus(await res.json())
+    } catch { /* ignore */ }
+  }
+
+  const setupAuth = async () => {
+    setAuthLoading(true)
+    try {
+      const res = await fetch('/api/auth', { method: 'POST' })
+      if (res.ok) {
+        flash('Auth token saved to GitHub')
+        setAuthStatus({ authenticated: true })
+      } else {
+        const data = await res.json()
+        flash(data.error || 'Auth setup failed')
+      }
+    } finally {
+      setAuthLoading(false)
+    }
   }
 
   const checkSync = async () => {
@@ -236,6 +263,7 @@ export default function Dashboard() {
       setLoading(false)
     }
     checkSync()
+    checkAuth()
   }, [])
 
   useEffect(() => { fetchData() }, [fetchData])
@@ -460,6 +488,15 @@ export default function Dashboard() {
         <div className="flex items-center justify-between">
           <img src="/logo.png" alt="AEON" className="h-16" />
           <div className="flex gap-2">
+            {authStatus && !authStatus.authenticated && (
+              <button
+                onClick={setupAuth}
+                disabled={authLoading}
+                className="bg-red-600/80 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {authLoading ? 'Setting up...' : 'Authenticate'}
+              </button>
+            )}
             <button
               onClick={() => setShowImport(true)}
               className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs px-3 py-1.5 rounded-lg border border-zinc-700/50 transition-colors"
