@@ -168,7 +168,7 @@ function VarsEditor({ vars, onSave }: { vars: string; onSave: (vars: string) => 
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && onSave(value)}
-        placeholder="topic=solana, query=NFT trends"
+        placeholder="topic=AI, query=Anthropic"
         className="flex-1 bg-zinc-800 text-zinc-200 text-[10px] rounded px-2 py-1 border border-zinc-700/50 outline-none placeholder:text-zinc-600 font-mono"
       />
       <button
@@ -548,9 +548,7 @@ export default function Dashboard() {
           <div className="absolute h-16 w-16 rounded-full border border-green-500/20" style={{ animation: 'pulse-ring 2s ease-out infinite 1.2s' }} />
           <div className="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.4)]" />
         </div>
-        <div style={{ animation: 'fade-in-up 0.5s ease-out 0.3s both' }}>
-          <span className="text-xs font-mono text-zinc-600 tracking-wider uppercase">Loading</span>
-        </div>
+        <div style={{ animation: 'fade-in-up 0.5s ease-out 0.3s both' }} />
       </div>
     )
   }
@@ -584,7 +582,7 @@ export default function Dashboard() {
               <button
                 onClick={() => setupAuth()}
                 disabled={authLoading}
-                className="bg-red-600/80 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+                className="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
               >
                 {authLoading ? 'Setting up...' : 'Authenticate'}
               </button>
@@ -598,9 +596,7 @@ export default function Dashboard() {
             <button
               onClick={syncToGithub}
               disabled={syncing || !hasChanges}
-              className={`text-white text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
-                hasChanges ? 'bg-green-600 hover:bg-green-500' : 'bg-zinc-700'
-              }`}
+              className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs px-3 py-1.5 rounded-lg border border-zinc-700/50 transition-colors disabled:opacity-50"
             >
               {syncing ? 'Pushing...' : 'Push to GitHub'}
             </button>
@@ -618,7 +614,7 @@ export default function Dashboard() {
               <h2 className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Skills</h2>
               <span className="text-xs text-zinc-600">{enabledCount} / {skills.length} enabled</span>
             </div>
-            <span className="text-[10px] text-zinc-600">{getLocalTzAbbr()}</span>
+            <span className="text-[10px] text-zinc-600">Timezone: {getLocalTzAbbr()}</span>
           </div>
           <div className="flex-1 overflow-y-auto">
             {skills.map(skill => (
@@ -705,7 +701,7 @@ export default function Dashboard() {
             <span className="text-xs text-zinc-600">{secretsSet} / {secrets.length} set</span>
           </div>
           <div className="flex-1 overflow-y-auto">
-            {['Core', 'Telegram', 'Discord', 'Slack', 'API Keys'].map(group => {
+            {['Core', 'Telegram', 'Discord', 'Slack', 'Skill Keys'].map(group => {
               const groupSecrets = secrets.filter(s => s.group === group)
               if (groupSecrets.length === 0) return null
               return (

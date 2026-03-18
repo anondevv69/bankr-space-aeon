@@ -12,9 +12,9 @@ const KNOWN_SECRETS = [
   { name: 'SLACK_BOT_TOKEN', group: 'Slack', description: 'Slack bot OAuth token' },
   { name: 'SLACK_CHANNEL_ID', group: 'Slack', description: 'Channel ID for messages' },
   { name: 'SLACK_WEBHOOK_URL', group: 'Slack', description: 'Webhook URL for notifications' },
-  { name: 'XAI_API_KEY', group: 'API Keys', description: 'xAI/Grok API key (for tweet skills)' },
-  { name: 'COINGECKO_API_KEY', group: 'API Keys', description: 'CoinGecko API key (for crypto skills)' },
-  { name: 'ALCHEMY_API_KEY', group: 'API Keys', description: 'Alchemy API key (for on-chain skills)' },
+  { name: 'XAI_API_KEY', group: 'Skill Keys', description: 'xAI/Grok API key (for tweet skills)' },
+  { name: 'COINGECKO_API_KEY', group: 'Skill Keys', description: 'CoinGecko API key (for crypto skills)' },
+  { name: 'ALCHEMY_API_KEY', group: 'Skill Keys', description: 'Alchemy API key (for on-chain skills)' },
   { name: 'GH_GLOBAL', group: 'Core', description: 'GitHub PAT with cross-repo access' },
 ]
 
