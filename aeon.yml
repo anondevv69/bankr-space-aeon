@@ -82,6 +82,7 @@ skills:
   startup-idea: { enabled: false, schedule: "0 18 * * *" }
 
   # --- Weekly (Monday only) ---
+  fork-fleet: { enabled: false, schedule: "0 10 * * 1" } # fork fleet scan — inventory active forks, detect diverged work
   weekly-review: { enabled: false, schedule: "0 19 * * 1" }
 
   # --- Fallback (must be last) ---
