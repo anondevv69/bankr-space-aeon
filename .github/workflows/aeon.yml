@@ -165,8 +165,8 @@ jobs:
           SKILL_NAME="${{ steps.skill.outputs.name }}"
           export SKILL_NAME
           CONFIG_MODEL=$(grep -E '^model:' aeon.yml | sed 's/^model: *//' | tr -d ' ')
-          # Check for per-skill model override in aeon.yml
-          SKILL_MODEL=$(awk "/^  ${SKILL_NAME}:/{found=1} found && /model:/{print; exit}" aeon.yml | sed 's/.*model: *"\?\([^"]*\)"\?/\1/' | tr -d ' }"')
+          # Check for per-skill model override in aeon.yml (extract quoted value, ignore comments)
+          SKILL_MODEL=$(grep "^  ${SKILL_NAME}:" aeon.yml | sed -n 's/.*model: *"\([^"]*\)".*/\1/p')
           INPUT_MODEL="${{ inputs.model }}"
           if [ -n "$INPUT_MODEL" ] && [ "$INPUT_MODEL" != "(config default)" ]; then
             MODEL="$INPUT_MODEL"
