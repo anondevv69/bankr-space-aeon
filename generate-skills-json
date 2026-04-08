@@ -79,6 +79,7 @@ declare -A CATEGORIES=(
   [action-converter]="productivity"
   [idea-capture]="productivity"
   [startup-idea]="productivity"
+  [auto-workflow]="productivity"
   # Fleet & Instances
   [spawn-instance]="dev"
   [fleet-control]="dev"
