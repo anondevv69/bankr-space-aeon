@@ -91,6 +91,9 @@ skills:
   fleet-control: { enabled: false, schedule: "0 9,15 * * *" } # fleet health checks twice daily, dispatch via var
   weekly-review: { enabled: false, schedule: "0 19 * * 1" }
 
+  # --- Utilities ---
+  auto-workflow: { enabled: false, schedule: "workflow_dispatch", var: "" } # on-demand — var: URL to analyze
+
   # --- Fallback (must be last) ---
   heartbeat: { enabled: true, schedule: "0 8,14,20 * * *" }
 
