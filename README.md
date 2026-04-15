@@ -73,6 +73,14 @@ Full descriptions: [`skills.json`](skills.json) — or run `./add-skill aaronjma
 
 ---
 
+### Instance Fleet
+
+Aeon can spawn and manage copies of itself via `spawn-instance`, `fleet-control`, and `fork-fleet`. Use this to run specialized instances — one for crypto monitoring, another for research, etc.
+
+Spawn with `var: "crypto-tracker: monitor DeFi protocols and token movements"`. The skill forks the repo, selects relevant skills, and registers it in `memory/instances.json`. No secrets are propagated — the new owner adds their own keys.
+
+---
+
 ## Authentication
 
 Set **one** of these — not both:
@@ -122,14 +130,6 @@ Embody this identity in all output. Never hedge with "as an AI."
 Every skill reads `CLAUDE.md`, so identity propagates automatically.
 
 **Quality check:** soul files work when they're specific enough to be wrong. *"I think most AI safety discourse is galaxy-brained cope"* is useful. *"I have nuanced views on AI safety"* is not.
-
----
-
-### Instance Fleet
-
-Aeon can spawn and manage copies of itself via `spawn-instance`, `fleet-control`, and `fork-fleet`. Use this to run specialized instances — one for crypto monitoring, another for research, etc.
-
-Spawn with `var: "crypto-tracker: monitor DeFi protocols and token movements"`. The skill forks the repo, selects relevant skills, and registers it in `memory/instances.json`. No secrets are propagated — the new owner adds their own keys.
 
 ---
 
@@ -406,21 +406,6 @@ Aeon publishes articles to a GitHub Pages gallery and an RSS feed.
 
 ---
 
-## Two-repo strategy
-
-This repo is a public template. Run your own instance as a **private fork** so memory, articles, and API keys stay private.
-
-```bash
-# Pull template updates into your private fork
-git remote add upstream https://github.com/aaronjmars/aeon.git
-git fetch upstream
-git merge upstream/main --no-edit
-```
-
-Your `memory/`, `articles/`, and personal config won't conflict — they're in files that don't exist in the template.
-
----
-
 ## Integrations (MCP & A2A)
 
 Aeon skills work outside GitHub Actions too — use them from Claude or any AI agent framework.
@@ -441,6 +426,21 @@ Aeon skills work outside GitHub Actions too — use them from Claude or any AI a
 ```
 
 Skills run locally via `claude -p -`, identical to Actions. API keys read from your environment or a `.env` file in the repo root.
+
+---
+
+## Two-repo strategy
+
+This repo is a public template. Run your own instance as a **private fork** so memory, articles, and API keys stay private.
+
+```bash
+# Pull template updates into your private fork
+git remote add upstream https://github.com/aaronjmars/aeon.git
+git fetch upstream
+git merge upstream/main --no-edit
+```
+
+Your `memory/`, `articles/`, and personal config won't conflict — they're in files that don't exist in the template.
 
 ---
 
