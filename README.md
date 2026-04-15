@@ -54,12 +54,6 @@ Click on `http://localhost:5555` to open the dashboard in your browser. From the
 3. **Pick skills** — toggle on what you want, set a schedule, and optionally set a `var` to focus each skill
 4. **Push** — one click commits and pushes your config to GitHub, Actions takes it from there
 
-You can also schedule and trigger skills by messaging Aeon directly on Telegram — just tell it what you want.
-
-<p align="center">
-  <img src="assets/tg.png" alt="Telegram" width="400" />
-</p>
-
 ---
 
 ## Authentication
@@ -90,63 +84,39 @@ Route requests through [Bankr LLM Gateway](https://docs.bankr.bot/llm-gateway/ov
 
 ![Skills](./assets/skills.jpg)
 
-| Category | Skills | Highlights |
-|----------|--------|------------|
-| **Research & Content** | 17 | `deep-research`, `digest`, `paper-pick`, `last30`, `hacker-news-digest`, `reddit-digest` |
-| **Dev & Code** | 28 | `pr-review`, `create-skill`, `vuln-scanner`, `auto-merge`, `external-feature`, `deploy-prototype` |
-| **Crypto & Markets** | 16 | `token-alert`, `defi-monitor`, `monitor-polymarket`, `monitor-kalshi`, `narrative-tracker` |
-| **Social & Writing** | 7 | `write-tweet`, `reply-maker`, `remix-tweets`, `agent-buzz`, `farcaster-digest` |
-| **Productivity** | 12 | `morning-brief`, `daily-routine`, `deal-flow`, `goal-tracker`, `action-converter` |
-| **Meta / Agent** | 11 | `heartbeat`, `skill-health`, `skill-repair`, `self-improve`, `cost-report` |
+| Category | Skills |
+|----------|--------|
+| **Research & Content** (17) | `article`, `digest`, `rss-digest`, `hacker-news-digest`, `paper-digest`, `paper-pick`, `last30`, `deep-research`, `technical-explainer`, `list-digest`, `research-brief`, `fetch-tweets`, `reddit-digest`, `telegram-digest`, `security-digest`, `channel-recap`, `vibecoding-digest` |
+| **Dev & Code** (28) | `pr-review`, `github-monitor`, `github-issues`, `github-releases`, `issue-triage`, `auto-merge`, `changelog`, `code-health`, `skill-security-scan`, `github-trending`, `push-recap`, `repo-pulse`, `repo-article`, `repo-actions`, `repo-scanner`, `project-lens`, `external-feature`, `create-skill`, `autoresearch`, `search-skill`, `auto-workflow`, `deploy-prototype`, `vuln-scanner`, `workflow-security-audit`, `vercel-projects`, `spawn-instance`, `fleet-control`, `fork-fleet` |
+| **Crypto & Markets** (16) | `token-alert`, `token-movers`, `token-report`, `token-pick`, `monitor-runners`, `on-chain-monitor`, `defi-monitor`, `defi-overview`, `market-context-refresh`, `narrative-tracker`, `monitor-polymarket`, `monitor-kalshi`, `polymarket-comments`, `unlock-monitor`, `treasury-info`, `distribute-tokens` |
+| **Social & Writing** (7) | `write-tweet`, `reply-maker`, `remix-tweets`, `refresh-x`, `tweet-roundup`, `agent-buzz`, `farcaster-digest` |
+| **Productivity** (12) | `morning-brief`, `daily-routine`, `evening-recap`, `weekly-review`, `weekly-shiplog`, `goal-tracker`, `idea-capture`, `action-converter`, `tool-builder`, `startup-idea`, `deal-flow`, `reg-monitor` |
+| **Meta / Agent** (11) | `heartbeat`, `reflect`, `self-improve`, `skill-health`, `skill-evals`, `skill-repair`, `skill-leaderboard`, `skill-update-check`, `cost-report`, `rss-feed`, `update-gallery` |
 
-Full catalog with descriptions: [`skills.json`](skills.json) — or run `./add-skill aaronjmars/aeon --list`
+Full descriptions: [`skills.json`](skills.json) — or run `./add-skill aaronjmars/aeon --list`
 
 ---
 
-## Use with Claude (MCP)
+## Integrations (MCP & A2A)
 
-Aeon's skills are available as tools in Claude Desktop and Claude Code via the MCP server bundled in `mcp-server/`.
+Aeon skills work outside GitHub Actions too — use them from Claude or any AI agent framework.
+
+**Claude (MCP)** — every skill appears as an `aeon-<name>` tool in Claude Desktop and Claude Code:
 
 ```bash
-./add-mcp
+./add-mcp                    # build and register
+./add-mcp --desktop          # also print Claude Desktop config
+./add-mcp --uninstall        # remove
 ```
 
-That's it. Every Aeon skill appears as an `aeon-<name>` tool in your Claude interface — no GitHub Actions required. Skills run locally via `claude -p -`, identical to how they run in Actions.
-
-**Example usage in Claude:**
-
-> Use the `aeon-hacker-news-digest` tool to get today's top HN stories
-
-> Run `aeon-deep-research` with `var="AI agent frameworks"` and write a summary
-
-> Use `aeon-token-movers` to get today's top crypto movers
-
-**Options:**
-
-| Flag | Effect |
-|------|--------|
-| `./add-mcp` | Build and register with Claude Code |
-| `./add-mcp --desktop` | Also print Claude Desktop config snippet |
-| `./add-mcp --build-only` | Build without registering (CI use) |
-| `./add-mcp --uninstall` | Remove the MCP server |
-
-Skills that need API keys (CoinGecko, Alchemy, etc.) read from the same environment variables they use in Actions — set them in your shell or a `.env` file in the repo root. Notification channels (Telegram, Discord, Slack) are optional; if not set, output is returned directly to Claude.
-
----
-
-## Use with any AI agent (A2A)
-
-Aeon implements [Google's Agent-to-Agent (A2A) protocol](https://google.github.io/A2A/), so any A2A-compliant framework — LangChain, AutoGen, CrewAI, OpenAI Agents SDK, Vertex AI — can invoke skills without needing Claude or MCP.
+**Any AI agent (A2A)** — [Google's A2A protocol](https://google.github.io/A2A/) lets LangChain, AutoGen, CrewAI, OpenAI Agents SDK, and Vertex AI invoke skills via HTTP:
 
 ```bash
 ./add-a2a                    # starts on port 41241
-./add-a2a --port 8080        # custom port
 ./add-a2a --print-config     # LangChain/Python client examples
 ```
 
-Discovery: `GET http://localhost:41241/.well-known/agent.json`
-Invoke: `POST /` with JSON-RPC (`tasks/send`, `tasks/get`, `tasks/cancel`)
-Stream: `POST /tasks/sendSubscribe` for SSE output on long-running skills
+Skills run locally via `claude -p -`, identical to Actions. API keys read from your environment or a `.env` file in the repo root.
 
 ---
 
