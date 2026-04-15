@@ -82,7 +82,7 @@ Route requests through [Bankr LLM Gateway](https://docs.bankr.bot/llm-gateway/ov
 
 ## Skills
 
-![Skills](./assets/skills.jpg)
+![Skills](./assets/skill.jpg)
 
 | Category | Skills |
 |----------|--------|
