@@ -2,7 +2,7 @@
     "version": "1.0",
     "generated": "2026-05-11T00:00:00Z",
     "repo": "aaronjmars/aeon",
-    "total": 117,
+    "total": 118,
     "categories": {
         "research": "Research & Content",
         "dev": "Dev & Code",
@@ -994,6 +994,18 @@
             "sha": "56b39ea",
             "updated": "2026-05-03",
             "install": "./add-skill aaronjmars/aeon show-hn-draft"
+        },
+        {
+            "slug": "product-hunt-launch",
+            "name": "product-hunt-launch",
+            "description": "Draft the full Product Hunt launch asset package (tagline, description, first comment, maker comment, six-bullet feature list) from live repo state \u2014 operator reviews and submits.",
+            "category": "social",
+            "schedule": "workflow_dispatch",
+            "var": "",
+            "files": 0,
+            "sha": "0000000",
+            "updated": "2026-05-15",
+            "install": "./add-skill aaronjmars/aeon product-hunt-launch"
         },
         {
             "slug": "skill-analytics",
