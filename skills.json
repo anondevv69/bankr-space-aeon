@@ -444,6 +444,18 @@
             "install": "./add-skill aaronjmars/aeon fork-skill-digest"
         },
         {
+            "slug": "fork-skill-gap",
+            "name": "fork-skill-gap",
+            "description": "Weekly cross-fork skill adoption digest \u2014 per-fork table of upstream skills the fork hasn't enabled, top forks by gap size called out, silent on small-gap weeks",
+            "category": "dev",
+            "schedule": "0 21 * * 0",
+            "var": "",
+            "files": 0,
+            "sha": "pending",
+            "updated": "2026-05-16",
+            "install": "./add-skill aaronjmars/aeon fork-skill-gap"
+        },
+        {
             "slug": "github-issues",
             "name": "GitHub Issues",
             "description": "Daily digest of new open issues across your repos, ranked by signal (security/bug/feature/other)",
