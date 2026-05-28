@@ -360,3 +360,40 @@ body::before {
 }
 .corner-markers { position: relative; }
 .corner-marker { display: none; } /* coral glow + hairline rules replace these */
+
+/* ──────────────────────────────────────────────────────────
+   SPOTLIGHT — coral glow that follows the cursor across grid
+   items (sets --mx / --my on the parent <li>).
+   ────────────────────────────────────────────────────────── */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    200px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(210, 75, 64, 0.22),
+    transparent 62%
+  );
+}
+.spotlight:hover::before { opacity: 1; }
+.spotlight > * { position: relative; z-index: 1; }
+
+/* ──────────────────────────────────────────────────────────
+   MARQUEE — left-scrolling editorial band (matches the site's
+   bottom marquee).
+   ────────────────────────────────────────────────────────── */
+.aeon-marquee {
+  display: inline-block;
+  animation: aeonScroll 42s linear infinite;
+}
+@keyframes aeonScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aeon-marquee { animation: none; }
+}
