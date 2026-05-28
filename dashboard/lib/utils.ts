@@ -54,7 +54,7 @@ export function getSkillStatus(name: string, enabled: boolean, runs: Run[]) {
 }
 
 export function statusDot(color: string) {
-  return `w-2 h-2 rounded-full shrink-0 ${color === 'green' ? 'bg-eva-green' : color === 'orange' ? 'bg-eva-orange animate-pulse' : color === 'red' ? 'bg-eva-red' : 'bg-[rgba(10,10,10,0.2)]'}`
+  return `w-2 h-2 rounded-full shrink-0 ${color === 'green' ? 'bg-eva-green' : color === 'orange' ? 'bg-eva-orange animate-pulse' : color === 'red' ? 'bg-eva-red' : 'bg-[rgba(250,250,250,0.22)]'}`
 }
 
-export const inputCls = "w-full bg-white text-eva-black text-xs px-3 py-2 border-2 border-[rgba(10,10,10,0.08)] outline-none font-mono focus:border-eva-orange transition-colors"
+export const inputCls = "w-full bg-aeon-bg text-aeon-fg text-xs px-3 py-2 border border-[rgba(250,250,250,0.10)] outline-none font-mono focus:border-aeon-red transition-colors placeholder:text-primary-35"

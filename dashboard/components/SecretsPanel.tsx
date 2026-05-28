@@ -34,12 +34,12 @@ export function SecretsPanel({ secrets, busy, onSave, onDelete }: SecretsPanelPr
         return (
           <div key={group}>
             <div className="text-label mb-[var(--space-sm)]">{group}</div>
-            <div className="card-hst divide-y divide-[rgba(10,10,10,0.06)]">
+            <div className="card-hst divide-y divide-[rgba(250,250,250,0.10)]">
               {gs.map(secret => (
                 <div key={secret.name} className="px-[var(--space-md)] py-[var(--space-sm)]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="flex items-center gap-2"><span className="font-mono text-xs">{secret.name}</span><span className={`w-2 h-2 rounded-full ${secret.isSet ? 'bg-eva-green' : 'bg-[rgba(10,10,10,0.15)]'}`} /></div>
+                      <div className="flex items-center gap-2"><span className="font-mono text-xs">{secret.name}</span><span className={`w-2 h-2 rounded-full ${secret.isSet ? 'bg-eva-green' : 'bg-[rgba(250,250,250,0.15)]'}`} /></div>
                       <div className="text-[11px] text-primary-40 font-mono">{secret.description}</div>
                     </div>
                     <div className="flex gap-1.5">
