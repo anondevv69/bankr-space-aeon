@@ -38,14 +38,14 @@ export function SkillDetail({ skill, runs, model, gateway, busy, onToggle, onRun
         <div className="corner-marker corner-marker-sm top-left" /><div className="corner-marker corner-marker-sm top-right" />
         <div className="corner-marker corner-marker-sm bottom-left" /><div className="corner-marker corner-marker-sm bottom-right" />
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 flex items-center justify-center text-lg font-bold text-white shrink-0" style={{ backgroundColor: skill.enabled ? (dept?.color || '#6B7280') : 'rgba(10,10,10,0.15)' }}>
+          <div className="w-14 h-14 flex items-center justify-center text-lg font-bold text-white shrink-0" style={{ backgroundColor: skill.enabled ? (dept?.color || '#6B7280') : 'rgba(250,250,250,0.15)' }}>
             {initials(skill.name)}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3">
               <h2 className="font-display text-2xl">{displayName(skill.name)}</h2>
               {(() => { const st = getSkillStatus(skill.name, skill.enabled, runs); return (
-                <span className={`inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 font-mono ${st.color === 'green' ? 'bg-green-50 text-eva-green' : st.color === 'orange' ? 'bg-orange-50 text-eva-orange' : st.color === 'red' ? 'bg-red-50 text-eva-red' : 'bg-eva-gray text-primary-40'}`}>
+                <span className={`inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 font-mono ${st.color === 'green' ? 'bg-aeon-green/10 text-eva-green' : st.color === 'orange' ? 'bg-aeon-red/10 text-eva-orange' : st.color === 'red' ? 'bg-aeon-red-alert/10 text-eva-red' : 'bg-aeon-bg text-primary-40'}`}>
                   <span className={statusDot(st.color)} />{st.label}
                 </span>
               )})()}
@@ -56,7 +56,7 @@ export function SkillDetail({ skill, runs, model, gateway, busy, onToggle, onRun
         <div className="warning-stripes mt-[var(--space-md)]" />
         <div className="flex items-center gap-2 mt-[var(--space-md)]">
           <button onClick={() => onToggle(skill.name, !skill.enabled)} disabled={!!busy[skill.name]}
-            className={`text-[11px] px-5 py-2 font-mono uppercase tracking-[1px] transition-opacity hover:opacity-90 ${skill.enabled ? 'bg-eva-gray text-primary-70 border-2 border-[rgba(10,10,10,0.08)]' : 'bg-eva-green text-white'}`}>
+            className={`text-[11px] px-5 py-2 font-mono uppercase tracking-[1px] transition-opacity hover:opacity-90 ${skill.enabled ? 'bg-aeon-bg text-primary-70 border border-[rgba(250,250,250,0.10)]' : 'bg-eva-green text-white'}`}>
             {skill.enabled ? 'Off Duty' : 'On Duty'}
           </button>
           <button onClick={() => onRun(skill.name, skill.var, skill.model)} disabled={!!busy[`r-${skill.name}`]}
@@ -84,14 +84,14 @@ export function SkillDetail({ skill, runs, model, gateway, busy, onToggle, onRun
           <button onClick={() => { setEditingVar(!editingVar); setVarDraft(skill.var) }} className="text-[11px] text-primary-40 font-mono hover:text-eva-orange transition-colors">{editingVar ? 'Cancel' : 'Edit'}</button>
         </div>
         {editingVar ? (
-          <div className="flex gap-2"><input type="text" value={varDraft} onChange={(e) => setVarDraft(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { onUpdateVar(skill.name, varDraft); setEditingVar(false) } }} placeholder="e.g. AI, bitcoin" className={inputCls} /><button onClick={() => { onUpdateVar(skill.name, varDraft); setEditingVar(false) }} className="bg-eva-black text-white text-[11px] px-4 py-2 font-mono hover:opacity-90">Save</button></div>
+          <div className="flex gap-2"><input type="text" value={varDraft} onChange={(e) => setVarDraft(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { onUpdateVar(skill.name, varDraft); setEditingVar(false) } }} placeholder="e.g. AI, bitcoin" className={inputCls} /><button onClick={() => { onUpdateVar(skill.name, varDraft); setEditingVar(false) }} className="bg-aeon-fg text-aeon-bg text-[11px] px-4 py-2 font-mono hover:opacity-90">Save</button></div>
         ) : <div className="font-display text-lg">{skill.var || <span className="text-primary-35">No assignment</span>}</div>}
       </div>
 
       {/* Model */}
       <div className="card-hst p-[var(--space-md)]">
         <div className="text-label mb-[var(--space-sm)]">Capability Level</div>
-        <select value={skill.model} onChange={(e) => onUpdateModel(skill.name, e.target.value)} className="bg-white text-eva-black text-xs px-3 py-2 border-2 border-[rgba(10,10,10,0.08)] outline-none font-mono w-full cursor-pointer focus:border-eva-orange transition-colors">
+        <select value={skill.model} onChange={(e) => onUpdateModel(skill.name, e.target.value)} className="bg-aeon-panel text-aeon-bg text-xs px-3 py-2 border border-[rgba(250,250,250,0.10)] outline-none font-mono w-full cursor-pointer focus:border-eva-orange transition-colors">
           <option value="">Default ({modelOptions.find(m => m.id === model)?.label ?? model})</option>
           {modelOptions.map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
         </select>
@@ -100,10 +100,10 @@ export function SkillDetail({ skill, runs, model, gateway, busy, onToggle, onRun
       {/* Activity */}
       <div>
         <div className="text-label mb-[var(--space-sm)]">Activity Log</div>
-        <div className="card-hst divide-y divide-[rgba(10,10,10,0.06)]">
+        <div className="card-hst divide-y divide-[rgba(250,250,250,0.10)]">
           {skillRuns.slice(0, 10).map(run => (
             <button key={run.id} onClick={() => onViewRun(run)}
-              className="w-full flex items-center gap-3 px-[var(--space-md)] py-[var(--space-sm)] hover:bg-eva-gray transition-colors text-left">
+              className="w-full flex items-center gap-3 px-[var(--space-md)] py-[var(--space-sm)] hover:bg-aeon-bg transition-colors text-left">
               <span className={`text-sm ${run.conclusion === 'success' ? 'text-eva-green' : run.conclusion === 'failure' ? 'text-eva-red' : run.status === 'in_progress' ? 'text-eva-orange' : 'text-primary-35'}`}>
                 {run.conclusion === 'success' ? '\u2713' : run.conclusion === 'failure' ? '\u2717' : run.status === 'in_progress' ? '\u25cc' : '\u00b7'}
               </span>

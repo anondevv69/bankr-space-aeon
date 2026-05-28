@@ -82,9 +82,9 @@ export default function Dashboard() {
   if (error) return <ErrorScreen error={error} />
 
   return (
-    <div className="h-screen flex bg-eva-white text-eva-black bg-grid">
+    <div className="h-screen flex bg-aeon-bg text-aeon-fg">
       <TargetCursor />
-      {toast && <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-eva-black text-white px-5 py-2.5 text-xs font-mono tracking-wide shadow-xl">{toast}</div>}
+      {toast && <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-aeon-fg text-aeon-bg px-5 py-2.5 text-xs font-mono uppercase tracking-[0.18em] shadow-xl">{toast}</div>}
 
       <LeftSidebar
         view={view} setView={(v) => { setView(v); setSelectedSkill(null) }}

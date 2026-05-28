@@ -52,10 +52,10 @@ export function HQOverview({ skills, runs, enabledCount, workingCount, onViewRun
       {/* Activity */}
       <div>
         <div className="text-label mb-[var(--space-sm)]">Recent Activity</div>
-        <div className="card-hst divide-y divide-[rgba(10,10,10,0.06)]">
+        <div className="card-hst divide-y divide-[rgba(250,250,250,0.10)]">
           {runs.slice(0, 8).map(run => (
             <button key={run.id} onClick={() => onViewRun(run)}
-              className="w-full flex items-center gap-3 px-[var(--space-md)] py-[var(--space-sm)] hover:bg-eva-gray transition-colors text-left">
+              className="w-full flex items-center gap-3 px-[var(--space-md)] py-[var(--space-sm)] hover:bg-aeon-bg transition-colors text-left">
               <span className={`text-sm ${run.conclusion === 'success' ? 'text-eva-green' : run.conclusion === 'failure' ? 'text-eva-red' : run.status === 'in_progress' ? 'text-eva-orange' : 'text-primary-35'}`}>
                 {run.conclusion === 'success' ? '\u2713' : run.conclusion === 'failure' ? '\u2717' : run.status === 'in_progress' ? '\u25cc' : '\u00b7'}
               </span>
