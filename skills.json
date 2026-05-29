@@ -1,8 +1,8 @@
 {
     "version": "1.0",
-    "generated": "2026-05-29T15:40:00Z",
+    "generated": "2026-05-29T18:18:35Z",
     "repo": "aaronjmars/aeon",
-    "total": 171,
+    "total": 172,
     "categories": {
         "research": "Research & Content",
         "dev": "Dev & Code",
@@ -2062,6 +2062,18 @@
             "sha": "0000000",
             "updated": "2026-05-29",
             "install": "./add-skill aaronjmars/aeon fleet-scorecard"
+        },
+        {
+            "slug": "honeypot-check",
+            "name": "Honeypot Check",
+            "description": "Detect un-sellable / restricted (honeypot) tokens on Base by simulating a real holder's sell via eth_call. Keyless \u2014 no explorer key needed.",
+            "category": "crypto",
+            "schedule": "workflow_dispatch",
+            "var": "",
+            "files": 0,
+            "sha": "",
+            "updated": "",
+            "install": "./add-skill aaronjmars/aeon honeypot-check"
         }
     ],
     "install_all": "./add-skill aaronjmars/aeon --all",
