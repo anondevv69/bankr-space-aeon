@@ -194,15 +194,15 @@ Steps:
 
 1. Look up the entry by `skill_name`. Abort if not found: log `SKILL_UPDATE_CHECK_ACCEPT_NO_MATCH: {skill_name}` and stop.
 2. Refetch the current upstream SHA (step 2 logic). If `MISSING_UPSTREAM` or `UNREACHABLE`, abort with `SKILL_UPDATE_CHECK_ACCEPT_FAIL: cannot fetch upstream`.
-3. Refetch the SKILL.md content via the raw accept header (step 4) into `/tmp/updated-skill.md`. Re-run the scanner against the fetched file **before any overwrite of the locked copy** — call `skills/skill-security-scan/scan.sh` verbatim, exactly like `pr-skill-triage` does. The `|| true` suffix is required because scanner exit `1` is the FAIL signal we need to read; without it, `set -e` will abort the script before the verdict can be classified and the paper trail can be written:
+3. Refetch the SKILL.md content via the raw accept header (step 4) into `/tmp/updated-skill.md`. Re-run the scanner against the fetched file **before any overwrite of the locked copy** — call `skills/skill-security-scan/scan.sh` verbatim, exactly like `pr-skill-triage` does. Capture the exit code via `|| SCAN_EXIT=$?` (not `|| true`) because `cmd || true` always exits `0`, so a subsequent `SCAN_EXIT=$?` reads `true`'s status, not the scanner's — and the scanner's `exit 1` (FAIL / ≥1 HIGH) gets masked to `0`, silently reopening the gate. Initialise `SCAN_EXIT=0` first so the success path (no failure → `||` clause never fires) still leaves it set:
    ```bash
-   ./skills/skill-security-scan/scan.sh /tmp/updated-skill.md --json > /tmp/skill-update-scan.json || true
-   SCAN_EXIT=$?
+   SCAN_EXIT=0
+   ./skills/skill-security-scan/scan.sh /tmp/updated-skill.md --json > /tmp/skill-update-scan.json || SCAN_EXIT=$?
    ```
-   Map the scanner output to a verdict (scanner exit codes: `0` = PASS / no HIGH, `1` = FAIL / ≥1 HIGH, `2` = usage error). Then parse `medium` counts from the JSON file with `jq`. If the scanner is missing, exits `2`, or the JSON cannot be parsed, **fail closed** — do not fall back to inline pattern matching. The scanner is the source of truth; a missing or broken scanner means no verdict, which means no overwrite (this is the ACCEPT path, where the cost of being wrong is a poisoned skill landing in the live skill set):
-   - `SCAN_EXIT == 0` AND JSON parses cleanly AND `medium` count `== 0` → **PASS** (silent update path)
-   - `SCAN_EXIT == 0` AND JSON parses cleanly AND `medium` count `> 0` → **WARN** (update path, but surface the warning summary)
-   - `SCAN_EXIT == 1` AND JSON parses cleanly → **FAIL** (abort — HIGH finding present; surface the HIGH summary)
+   Map the scanner output to a verdict (scanner exit codes: `0` = PASS / no HIGH, `1` = FAIL / ≥1 HIGH, `2` = usage error). Then parse `high` and `medium` counts from the JSON file with `jq` — always read `high` as a belt-and-suspenders cross-check so a future exit-code regression (e.g. someone reintroducing `|| true`) cannot silently reopen the gate. If the scanner is missing, exits `2`, or the JSON cannot be parsed, **fail closed** — do not fall back to inline pattern matching. The scanner is the source of truth; a missing or broken scanner means no verdict, which means no overwrite (this is the ACCEPT path, where the cost of being wrong is a poisoned skill landing in the live skill set):
+   - `SCAN_EXIT == 0` AND JSON parses cleanly AND `high` count `== 0` AND `medium` count `== 0` → **PASS** (silent update path)
+   - `SCAN_EXIT == 0` AND JSON parses cleanly AND `high` count `== 0` AND `medium` count `> 0` → **WARN** (update path, but surface the warning summary)
+   - (`SCAN_EXIT == 1` OR `high` count `> 0`) AND JSON parses cleanly → **FAIL** (abort — HIGH finding present; surface the HIGH summary). The `high > 0` arm catches the case where exit code is `0` but the JSON reports HIGH findings — a defence against exit-code masking regressions.
    - `SCAN_EXIT == 2`, scanner not executable / missing, `jq` missing, or JSON parse failure → **SCANNER_ERROR** (fail-closed variant of FAIL — same abort path, with `scanner_error` flag added to the paper trail and notification so the operator can distinguish "upstream is hostile" from "our scanner is broken")
 
    Branch on verdict:
