@@ -2,7 +2,7 @@
     "version": "1.0",
     "generated": "2026-05-29T17:40:44Z",
     "repo": "aaronjmars/aeon",
-    "total": 174,
+    "total": 175,
     "categories": {
         "research": "Research & Content",
         "dev": "Dev & Code",
@@ -2098,6 +2098,18 @@
             "sha": "",
             "updated": "",
             "install": "./add-skill aaronjmars/aeon lp-lock-check"
+        },
+        {
+            "slug": "linked-wallets",
+            "name": "Linked Wallets",
+            "description": "Cluster addresses likely controlled by the same entity on Base via shared-funder and co-spend heuristics. Keyless \u2014 no explorer key needed.",
+            "category": "crypto",
+            "schedule": "workflow_dispatch",
+            "var": "",
+            "files": 0,
+            "sha": "",
+            "updated": "",
+            "install": "./add-skill aaronjmars/aeon linked-wallets"
         }
     ],
     "install_all": "./add-skill aaronjmars/aeon --all",
