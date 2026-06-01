@@ -2,7 +2,7 @@
     "version": "1.0",
     "generated": "2026-05-29T15:40:00Z",
     "repo": "aaronjmars/aeon",
-    "total": 171,
+    "total": 172,
     "categories": {
         "research": "Research & Content",
         "dev": "Dev & Code",
@@ -142,6 +142,18 @@
             "sha": "ac068d2",
             "updated": "2026-05-23",
             "install": "./add-skill aaronjmars/aeon builder-map"
+        },
+        {
+            "slug": "capabilities-map",
+            "name": "capabilities-map",
+            "description": "Weekly read-only audit of installed skills' capability coverage — maps every enabled/disabled skill against the locked 6-value taxonomy in docs/CAPABILITIES.md, flags any capability tier with zero enabled coverage as an actionable gap",
+            "category": "dev",
+            "schedule": "30 11 * * 1",
+            "var": "",
+            "files": 0,
+            "sha": "",
+            "updated": "2026-06-01",
+            "install": "./add-skill aaronjmars/aeon capabilities-map"
         },
         {
             "slug": "changelog",
