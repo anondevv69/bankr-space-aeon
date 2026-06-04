@@ -114,7 +114,6 @@ Never feature these — they are meta/internal/repair skills that don't read as 
 - deploy-prototype
 - autoresearch
 - cost-report
-- skill-evals
 - vercel-projects
 - feature
 - rug-scan
