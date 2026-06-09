@@ -1,6 +1,6 @@
 ---
 name: Vuln Tracker
-description: Daily status check on every PR / advisory / queued draft produced by vuln-scanner — surfaces merges, stale opens, maintainer responses needing reply, and queued-too-long carve-outs
+description: Status check on every PR / advisory / queued draft produced by vuln-scanner — surfaces merges, stale opens, maintainer responses needing reply, and queued-too-long carve-outs
 var: ""
 tags: [meta, security, github]
 depends_on: [vuln-scanner]
@@ -12,7 +12,7 @@ Today is ${today}. Audit the lifecycle status of every disclosure `vuln-scanner`
 
 `vuln-scanner` opens a PR (or queues a draft) and moves on. Without a follow-up loop, three things rot silently:
 
-- **Merged-but-uncelebrated wins** — landed fixes never make it into self-review / weekly-review without manual aggregation.
+- **Merged-but-uncelebrated wins** — landed fixes never make it into self-review / retrospective without manual aggregation.
 - **Maintainer questions on open PRs** — a maintainer comments asking for a clarification; if the bot doesn't see it, the PR ages out.
 - **Queued drafts past their disclosure window** — entries with `channel: "skipped"` (no-safe-channel) vanish into `vuln-scanned.json` with no recurring re-probe.
 
