@@ -97,7 +97,7 @@ skills:
   external-feature: { enabled: false, schedule: "30 16 * * *", var: "" } # proactively enhance watched repos — set var to owner/repo or owner/repo#N
   vuln-scanner: { enabled: false, schedule: "0 16 * * 6", var: "" } # Saturday — audit repos for security vulns, PR fixes
   deploy-prototype: { enabled: false, schedule: "workflow_dispatch", var: "" } # on-demand — build app and deploy to Vercel
-  base-mcp: { enabled: false, schedule: "workflow_dispatch", var: "" } # on-demand — Base Account access via the Base MCP server (mcp.base.org)
+  base-mcp: { enabled: false, schedule: "workflow_dispatch", var: "", model: "gpt-5-nano" } # on-demand — Base Account access via the Base MCP server (mcp.base.org)
   autoresearch: { enabled: false, schedule: "workflow_dispatch", var: "" } # on-demand — set var to skill name to evolve
   create-skill: { enabled: false, schedule: "workflow_dispatch", var: "" } # one-shot skill creator — set var to a description prompt
 
@@ -259,7 +259,7 @@ skills:
   # Social
   mention-radar: { enabled: false, schedule: "25 7 2/2 * *", model: "claude-sonnet-4-6", var: "" } # every other day — external web/social mentions of the operator's projects (discovery/confusion/friction/competitor taxonomy + engagement opportunities). var: comma-separated project names; falls back to MEMORY.md / memory/topics/projects.md
 
-  bankr-space-worker: { enabled: true, schedule: "*/15 * * * *", model: "gemini-2.5-flash" }
+  bankr-space-worker: { enabled: true, schedule: "*/15 * * * *", model: "gpt-5-nano" }
   bankr-communities: { enabled: false, schedule: "0 0 1 1 *" }
   # --- Fallback (must be last) ---
   heartbeat: { enabled: true, schedule: "0 8,14,20 * * *" }
