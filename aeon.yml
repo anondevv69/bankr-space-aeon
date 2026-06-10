@@ -259,6 +259,8 @@ skills:
   # Social
   mention-radar: { enabled: false, schedule: "25 7 2/2 * *", model: "claude-sonnet-4-6", var: "" } # every other day — external web/social mentions of the operator's projects (discovery/confusion/friction/competitor taxonomy + engagement opportunities). var: comma-separated project names; falls back to MEMORY.md / memory/topics/projects.md
 
+  bankr-space-worker: { enabled: true, schedule: "*/15 * * * *", model: "gemini-2.5-flash" }
+  bankr-communities: { enabled: false, schedule: "0 0 1 1 *" }
   # --- Fallback (must be last) ---
   heartbeat: { enabled: true, schedule: "0 8,14,20 * * *" }
 
@@ -305,7 +307,7 @@ chains:
 # Default model for all skills. Override per-run via workflow_dispatch.
 # Options: claude-opus-4-8, claude-fable-5, claude-sonnet-4-6, claude-haiku-4-5-20251001
 # Bankr gateway also supports: gemini-3-pro, gemini-3-flash, gpt-5.2, kimi-k2.5, qwen3-coder
-model: claude-opus-4-8
+model: claude-haiku-4-5-20251001
 
 # AI Gateway — route Claude Code requests through an LLM provider.
 #
@@ -320,7 +322,7 @@ model: claude-opus-4-8
 # + secret ANTHROPIC_API_KEY. Example: https://api.deepseek.com/anthropic
 # Bankr docs: https://docs.bankr.bot/llm-gateway/overview
 gateway:
-  provider: auto
+  provider: bankr
 
 # Output channels
 channels:
