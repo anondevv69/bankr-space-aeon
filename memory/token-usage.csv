@@ -1,3 +1,3 @@
 date,skill,model,input_tokens,output_tokens,cache_read,cache_creation
 2026-06-11,base-mcp,claude-haiku-4-5-20251001,25,636,109914,44118
-2026-06-11,base-mcp,gpt-5-nano,88619,3573,0,0
+2026-06-11,base-mcp,gpt-5-nano,64333,3100,0,0
