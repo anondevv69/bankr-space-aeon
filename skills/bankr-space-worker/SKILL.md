@@ -3,9 +3,9 @@ name: Bankr Space Worker
 description: Autonomous platform worker for bankr.space — polls opted-in holder spaces, posts milestones, and runs skill-linked actions from the community agent pool (Lane B) or fee-recipient fundraisers (Lane A).
 var: ""
 tags: [crypto, social]
-requires: [CRON_SECRET, PLATFORM_AGENT_WALLET?]
-mcp: [base?]
-capabilities: [external_api, writes_external_host, onchain_writes?]
+requires: [CRON_SECRET, PLATFORM_AGENT_WALLET?, BANKR_API_KEY?]
+mcp: []
+capabilities: [external_api, writes_external_host]
 version: 1.1.0
 ---
 
@@ -34,6 +34,18 @@ You are the **Bankr Space platform agent** — one worker across all opted-in to
 Set the **same** `PLATFORM_AGENT_WALLET` and `CRON_SECRET` on bankr.space (Vercel) and in this Aeon repo (GitHub secrets).
 
 `x-agent-id` for all writes: **`aeon`** (not hermes).
+
+---
+
+## CRITICAL — headless GitHub Actions
+
+This worker runs in **CI without a browser**. Follow these rules every run:
+
+1. **Do NOT use Base MCP** — OAuth cannot complete in Actions; it will block the whole run.
+2. Use **WebFetch** or **curl** for all `bankr.space` HTTP APIs (`platform-spaces`, posts, `pool-executed`).
+3. For **0xWork / QRCoin on-chain**, use **`BANKR_API_KEY`** → `POST https://api.bankr.bot/agent/prompt` with `X-API-Key`, then poll `GET /agent/job/{jobId}` until completed.
+4. GitHub secret must be named exactly **`BANKR_API_KEY`** (value = `bk_…` for the platform agent wallet).
+5. If `BANKR_API_KEY` is missing or job fails: POST feed milestone **"pool funded, execution pending"** — **do not** call `pool-executed`.
 
 ---
 
