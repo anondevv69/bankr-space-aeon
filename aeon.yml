@@ -469,7 +469,7 @@ skills:
       var: ""
     } # every other day — external web/social mentions of the operator's projects (discovery/confusion/friction/competitor taxonomy + engagement opportunities). var: comma-separated project names; falls back to MEMORY.md / memory/topics/projects.md
 
-  bankr-space-worker: { enabled: true, schedule: "*/15 * * * *", model: "gpt-5-nano" }
+  bankr-space-worker: { enabled: true, schedule: "*/15 * * * *", model: "gemini-2.5-flash" }
   bankr-communities: { enabled: false, schedule: "0 0 1 1 *" }
   # --- Fallback (must be last) ---
   heartbeat: { enabled: true, schedule: "0 8,14,20 * * *" }
@@ -532,7 +532,7 @@ model: claude-haiku-4-5-20251001
 # + secret ANTHROPIC_API_KEY. Example: https://api.deepseek.com/anthropic
 # Bankr docs: https://docs.bankr.bot/llm-gateway/overview
 gateway:
-  provider: auto
+  provider: bankr
 
 # Output channels
 channels:
