@@ -25,3 +25,22 @@ Summary
 - Attempted to invoke base-mcp skill (not available in this session).
 - Provided onboarding steps and next-step options from SKILL.md.
 - Awaiting your direction on which Base MCP action to perform next.
+Base MCP onboarding
+
+By using the Base MCP, you agree to the Base Account and Base App Terms of Service. Plugins available in the Base repo are authored by Base, not by the third-party protocols they reference.
+
+What would you like to do? Here are common actions (pick a number or tell me a specific task):
+
+1) Check balance or account summary
+2) Retrieve wallet address (optional display; I won’t dump unless you ask)
+3) Send tokens / make a payment
+4) Sign a message or transaction
+5) Batched contract calls (EIP-5792)
+6) Use partner plugins (e.g., Morpho, Moonwell, Uniswap, Avantis, Virtuals, Aerodrome, Bankr)
+7) Start OAuth flow to connect your Base Account (I can initiate this now)
+
+Notes
+- Writes require an approval flow (you’ll be prompted for confirmations/permissions by the MCP for any write operations).
+- If you want me to take action, tell me the task and any necessary details (recipient, amount, asset, memo, etc.). I can guide you through prompts and confirm steps before submitting.
+
+Would you like me to start the OAuth flow to connect your Base Account now, or would you prefer to first explore a read-only action like checking your balance?
