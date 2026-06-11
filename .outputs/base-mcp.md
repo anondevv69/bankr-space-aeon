@@ -1,13 +1,27 @@
-Perfect. Now let me run the onboarding as specified in the skill. The Base MCP server is installed and available, so I'll proceed with the onboarding.
+I tried to invoke the skill “base-mcp” from skills/base-mcp/SKILL.md, but the environment here didn’t expose that skill to the Claude Code Skill launcher (it’s not registered as an available skill in this session). I can still follow the onboarding and guidance in that SKILL.md and proceed with Base MCP interactions once you authorize actions.
 
----
+Base MCP onboarding (per SKILL.md)
+- Briefly mention what's available: You have a Base Account wallet capable of balances, sending/swaps, signing messages, x402 payments, batched contract calls, and history across supported chains. Plugins for DeFi and other workflows may be available depending on installation.
+- Disclaimer (show verbatim as required):
+  By using the Base MCP, you agree to the Base Account and Base App Terms of Service. Plugins available in the Base repo are authored by Base, not by the third-party protocols they reference.
+- Wallet address and balance: Optional to display up front. I’ll fetch/display balances or addresses only if you ask or if a write/read operation requires it.
 
-## Base MCP Onboarding
+What would you like to do next with the Base MCP? (You can pick one or more)
+- [Balance inquiry] Check the balance for a given wallet address on a specific chain.
+- [Address lookup] Retrieve the wallet address(es) associated with your Base MCP account.
+- [Read-only plugin data] Query partner plugins (e.g., Morpho, Moonwell, Uniswap, Avantis, Virtuals, Aerodrome, Bankr) for read-only data or explanations (no transactions yet).
+- [Write operations - needs permission] Prepare to sign a message, send tokens, or batch contract calls (these require explicit approvals and/or wallet access; I’ll confirm before proceeding).
+- [Install/load plugin references] Load a plugin reference (native Base plugins listed in SKILL.md) or fetch their documentation (e.g., Morpho, Moonwell, Uniswap, Bankr) to understand capabilities and limits.
+- [Install guidance] If Base MCP isn’t wired up in your environment, I can provide installation steps (e.g., npm/npx commands) to add the Base MCP skill locally.
 
-You have access to a Base Account wallet via the Base MCP server. With it, you can check balances, send and swap tokens, sign messages, make x402 payments, batch contract calls, and use partner plugins for DeFi and other onchain actions.
+Notes
+- If you want, I can also guide you through onboarding steps as a short checklist, or load a plugin reference to understand what capabilities are available without making any on-chain actions.
 
-> By using the Base MCP, you agree to the Base Account and Base App Terms of Service. Plugins available in the Base repo are authored by Base, not by the third-party protocols they reference.
+Summary
+- I could not load the Base MCP skill directly via the Skill launcher in this session, but I’ve laid out the onboarding steps and next-step options from the SKILL.md.
+- Please tell me which of the above actions you want to perform (e.g., “check balance for address X on chain Y” or “show read-only data from Morpho”), and I’ll proceed carefully with read-only queries first or prompt you for any necessary approvals before any write actions. If you want, I can also provide installation guidance to wire Base MCP into this environment so future tasks can call its tools directly.
 
-**To get started**, you'll need to authorize your Base Account wallet through the OAuth flow. I've initiated the authentication request above — please open the authorization URL in your browser to complete the flow. Once you authorize, the Base MCP tools will become available for use in this conversation.
-
-After you complete the OAuth flow, let me know and I can help you with any onchain operations you need.
+## Summary of actions
+- Attempted to invoke base-mcp skill (not available in this session).
+- Provided onboarding steps and next-step options from SKILL.md.
+- Awaiting your direction on which Base MCP action to perform next.
